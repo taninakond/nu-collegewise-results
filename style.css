@@ -49,3 +49,7 @@ form#show-result button {
     text-align: center;
     background: aliceblue;
 }
+
+footer p {
+    text-align: center;
+}
