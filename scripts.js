@@ -2638,7 +2638,6 @@ show_result.addEventListener('submit', function (e) {
         }
     }
 
-    console.log(formValues);
     let classLabel;
     switch (formValues.classLabel) {
         case '1':
