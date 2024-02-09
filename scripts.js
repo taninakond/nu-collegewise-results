@@ -1,4 +1,5 @@
 const collegeList = [
+    { code: 2101, name: 'GOVT. EDWARD COLLEGE' },
     { code: 2112, name: 'GOVERNMENT ISWARDI COLLEGE' },
     { code: 6301, name: 'MADARIPUR GOVT. COLLEGE' },
     { code: 2801, name: 'JOYPURHAT GOVT. COLLEGE' },
@@ -300,7 +301,6 @@ const collegeList = [
     { code: 3222, name: 'MAWLANA KERAMAT ALI COLLEGE' },
     { code: 322, name: 'GOVT. B. L. COLLEGE' },
     { code: 3216, name: 'HARAGACHH GOVT. COLLEGE' },
-    { code: 2101, name: 'GOVT. EDWARD COLLEGE' },
     { code: 2416, name: 'RANINAGHAR MAHILA COLLEGE' },
     { code: 3408, name: 'PARBATIPUR DEGREE COLLEGE' },
     { code: 5529, name: 'BANGATAJ COLLEGE' },
@@ -2521,25 +2521,94 @@ const subjectList = [
     { value: 21, label: 'SOCIAL WORK / WELFARE' },
 ];
 
-const selectCollege = document.getElementById('collegeList');
-const selectSubject = document.getElementById('subjectList');
+const collegeListItems = document.querySelector('.college-list');
+const college = document.querySelector('#college');
+const collegeCode = document.querySelector('#collegeCode');
+const subjectListItems = document.querySelector('.subject-list');
+const subject = document.querySelector('#subject');
+const subjectCode = document.querySelector('#subjectName');
+const selectTextField = document.querySelectorAll('input[type="text"]');
 
-function createAndAppendOption(item, value = 'value', label = 'label') {
-    const option = document.createElement('option');
-    option.value = item[value];
-    option.innerText = `${item[label]} ( ${item[value]} )`;
+selectTextField.forEach((field) => {
+    field.addEventListener('focus', function (e) {
+        e.target.select();
+
+        if (e.target.id === 'college') {
+            appendOptions(collegeList, collegeListItems, 'code', 'name');
+            collegeListItems.classList.add('active');
+        } else if (e.target.id === 'subject') {
+            appendOptions(subjectList, subjectListItems);
+            subjectListItems.classList.add('active');
+        }
+    });
+
+    field.addEventListener('blur', function (e) {
+        if (e.target.id === 'college') {
+            collegeListItems.classList.remove('active');
+        } else if (e.target.id === 'subject') {
+            subjectListItems.classList.remove('active');
+        }
+    });
+});
+
+collegeListItems.addEventListener('click', function (event) {
+    collegeListItems.classList.remove('active');
+    college.value = event.target.innerText;
+    collegeCode.value = event.target.dataset.value;
+});
+
+college.addEventListener('keyup', (event) => {
+    const value = event.target.value;
+    if (value !== '') {
+        collegeListItems.classList.add('active');
+    } else {
+        collegeListItems.classList.remove('active');
+    }
+    const newCollegeList = collegeList.filter((element) => {
+        const searchTerm = element.name + ' ( ' + element.code + ' )';
+        return searchTerm.toLowerCase().includes(value.toLowerCase());
+    });
+    collegeListItems.innerHTML = '';
+    appendOptions(newCollegeList, collegeListItems, 'code', 'name');
+});
+
+subjectListItems.addEventListener('click', function (event) {
+    subjectListItems.classList.remove('active');
+    subject.value = event.target.innerText;
+    subjectCode.value = event.target.dataset.value;
+});
+
+subject.addEventListener('keyup', (event) => {
+    const value = event.target.value;
+    if (value !== '') {
+        subjectListItems.classList.add('active');
+    } else {
+        subjectListItems.classList.remove('active');
+    }
+    const newSubjectList = subjectList.filter((element) => {
+        const searchTerm = element.label + ' ( ' + element.value + ' )';
+        return searchTerm.toLowerCase().includes(value.toLowerCase());
+    });
+    subjectListItems.innerHTML = '';
+    appendOptions(newSubjectList, subjectListItems);
+});
+
+function createAndAppendOption(item, value, label) {
+    const option = document.createElement('li');
+    option.setAttribute('data-value', item[value]);
+    option.classList.add('list-item');
+    option.innerText = `${item[label]} ${
+        item[value] ? '( ' + item[value] + ' )' : ''
+    }`;
     return option;
 }
 
-function appendOptions(items, selector, value, lagel) {
+function appendOptions(items, selector, value = 'value', lagel = 'label') {
     items.forEach((college) => {
         const option = createAndAppendOption(college, value, lagel);
         selector.appendChild(option);
     });
 }
-
-appendOptions(collegeList, selectCollege, 'code', 'name');
-appendOptions(subjectList, selectSubject);
 
 const show_result = document.getElementById('show-result');
 
@@ -2568,6 +2637,8 @@ show_result.addEventListener('submit', function (e) {
             formValues[element.name] = element.value;
         }
     }
+
+    console.log(formValues);
     let classLabel;
     switch (formValues.classLabel) {
         case '1':
@@ -2584,6 +2655,6 @@ show_result.addEventListener('submit', function (e) {
     }
 
     open(
-        `http://results.nu.ac.bd/honours/result_${classLabel}yearHonours.php?m_college_name=${formValues.collegeList}&sub_name=${formValues.subjectList}&exam_year=${formValues.Year}`
+        `http://results.nu.ac.bd/honours/result_${classLabel}yearHonours.php?m_college_name=${formValues.collegeCode}&sub_name=${formValues.subjectName}&exam_year=${formValues.Year}`
     );
 });

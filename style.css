@@ -53,3 +53,49 @@ form#show-result button {
 .author {
     text-align: center;
 }
+
+.select-aria {
+    position: relative;
+}
+
+.subject-list,
+.college-list {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 30px;
+    z-index: 99;
+    background: #efefef;
+    padding: 0;
+    list-style: none;
+    border-radius: 5px;
+    border: 1px solid #797979;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    max-height: 300px;
+    overflow: auto;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.subject-list.active,
+.college-list.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.subject-list li.list-item,
+.college-list li.list-item {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.subject-list li.list-item:nth-child(2n),
+.college-list li.list-item:nth-child(2n) {
+    background: #fff;
+}
+
+.subject-list li.list-item:hover,
+.college-list li.list-item:hover {
+    background: #ffdddd;
+}

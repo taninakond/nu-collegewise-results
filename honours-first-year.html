@@ -3,23 +3,56 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Honours First Year | NU Collegewise Results</title>
+        <title>Honours First Year | NU College wise Results</title>
         <link rel="stylesheet" href="./style.css" />
     </head>
     <body>
         <div class="wrap">
             <h1>Honours First Year</h1>
             <form id="show-result">
-                <select name="subjectList" id="subjectList"></select>
-                <select name="collegeList" id="collegeList"></select>
+                <div class="select-aria">
+                    <input
+                        type="text"
+                        id="college"
+                        class="college"
+                        placeholder="College Name"
+                        autocomplete="off"
+                    />
+                    <input
+                        type="hidden"
+                        id="collegeCode"
+                        name="collegeCode"
+                        class="college"
+                    />
+                    <ul class="college-list"></ul>
+                </div>
+
+                <div class="select-aria">
+                    <input
+                        type="text"
+                        id="subject"
+                        class="subject"
+                        placeholder="Subject Name"
+                        autocomplete="off"
+                    />
+                    <input
+                        type="hidden"
+                        id="subjectName"
+                        name="subjectName"
+                        class="subject"
+                    />
+                    <ul class="subject-list"></ul>
+                </div>
+
                 <input
                     type="text"
                     name="Year"
                     id="year"
                     placeholder="Enter Year"
+                    autocomplete="off"
                 />
                 <input type="hidden" name="classLabel" value="1" />
-                <button type="submit">Show Collegewise Result</button>
+                <button type="submit">Show College wise Result</button>
             </form>
         </div>
         <script src="./scripts.js"></script>
